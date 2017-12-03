@@ -6,6 +6,16 @@ add_theme_support( 'post-thumbnails' );
 add_theme_support( 'automatic-feed-links' );
 add_theme_support( 'title-tag' );
 
+
+add_filter('show_admin_bar', '__return_false');
+
+function my_home_category( $query ) {
+ if ( $query->is_home() && $query->is_main_query() ) {
+ $query->set( 'cat', '17');
+ }
+}
+add_action( 'pre_get_posts', 'my_home_category' );
+
 //Add content width (desktop default)
 if ( ! isset( $content_width ) ) {
 	$content_width = 768;
@@ -52,7 +62,7 @@ if ( ! function_exists( 'bootstrap_setup' ) ):
 		add_action( 'init', 'register_menu' );
 
 		function register_menu(){
-			register_nav_menu( 'top-bar', 'Bootstrap Top Menu' ); 
+			register_nav_menu( 'top-bar', 'Bootstrap Top Menu' );
 		}
 
 		class Bootstrap_Walker_Nav_Menu extends Walker_Nav_Menu {
@@ -157,7 +167,7 @@ endif;
 // custom theme options for user in admin area - Appearance > Theme Options
 function pu_theme_menu()
 {
-  add_theme_page( 'Theme Option', 'Theme Options', 'manage_options', 'pu_theme_options.php', 'pu_theme_page');  
+  add_theme_page( 'Theme Option', 'Theme Options', 'manage_options', 'pu_theme_options.php', 'pu_theme_page');
 }
 add_action('admin_menu', 'pu_theme_menu');
 
@@ -168,15 +178,15 @@ function pu_theme_page()
       <h1>Custom Theme Options</h1>
       <form method="post" enctype="multipart/form-data" action="options.php">
       <hr>
-        <?php 
+        <?php
 
-          settings_fields('pu_theme_options'); 
-        
+          settings_fields('pu_theme_options');
+
           do_settings_sections('pu_theme_options.php');
           echo '<hr>';
         ?>
-            <p class="submit">  
-                <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />  
+            <p class="submit">
+                <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
             </p>
       </form>
     </div>
@@ -208,7 +218,7 @@ function pu_register_settings()
     );
 
     // Add twitter field
-    add_settings_field( 'twitter_link', 'Twitter', 'pu_display_setting', 'pu_theme_options.php', 'pu_text_section', $field_args );   
+    add_settings_field( 'twitter_link', 'Twitter', 'pu_display_setting', 'pu_theme_options.php', 'pu_text_section', $field_args );
 
     $field_args = array(
       'type'      => 'text',
@@ -277,7 +287,7 @@ function pu_register_settings()
 
     // Add settings section title here
     add_settings_section( 'section_name_here', 'Section Title Here', 'pu_display_section', 'pu_theme_options.php' );
-    
+
     // Create textarea field
     $field_args = array(
       'type'      => 'textarea',
@@ -289,7 +299,7 @@ function pu_register_settings()
     );
 
     // section_name should be same as section_name above (line 116)
-    add_settings_field( 'settings_field_1', 'Setting Title Here', 'pu_display_setting', 'pu_theme_options.php', 'section_name_here', $field_args );   
+    add_settings_field( 'settings_field_1', 'Setting Title Here', 'pu_display_setting', 'pu_theme_options.php', 'section_name_here', $field_args );
 
 
     // Copy lines 118 through 129 to create additional field within that section
@@ -306,27 +316,27 @@ function pu_display_setting($args)
 
     $options = get_option( $option_name );
 
-    switch ( $type ) {  
-          case 'text':  
-              $options[$id] = stripslashes($options[$id]);  
-              $options[$id] = esc_attr( $options[$id]);  
-              echo "<input class='regular-text$class' type='text' id='$id' name='" . $option_name . "[$id]' value='$options[$id]' />";  
+    switch ( $type ) {
+          case 'text':
+              $options[$id] = stripslashes($options[$id]);
+              $options[$id] = esc_attr( $options[$id]);
+              echo "<input class='regular-text$class' type='text' id='$id' name='" . $option_name . "[$id]' value='$options[$id]' />";
               echo ($desc != '') ? "<br /><span class='description'>$desc</span>" : "";
           break;
-          case 'textarea':  
-              $options[$id] = stripslashes($options[$id]);  
+          case 'textarea':
+              $options[$id] = stripslashes($options[$id]);
               //$options[$id] = esc_attr( $options[$id]);
-              $options[$id] = esc_html( $options[$id]); 
+              $options[$id] = esc_html( $options[$id]);
 
               printf(
-              	wp_editor($options[$id], $id, 
+              	wp_editor($options[$id], $id,
               		array('textarea_name' => $option_name . "[$id]",
               			'style' => 'width: 200px'
-              			)) 
+              			))
 				);
-              // echo "<textarea id='$id' name='" . $option_name . "[$id]' rows='10' cols='50'>".$options[$id]."</textarea>";  
-              // echo ($desc != '') ? "<br /><span class='description'>$desc</span>" : "";  
-          break; 
+              // echo "<textarea id='$id' name='" . $option_name . "[$id]' rows='10' cols='50'>".$options[$id]."</textarea>";
+              // echo ($desc != '') ? "<br /><span class='description'>$desc</span>" : "";
+          break;
     }
 }
 
@@ -335,7 +345,7 @@ function pu_validate_settings($input)
   foreach($input as $k => $v)
   {
     $newinput[$k] = trim($v);
-    
+
     // Check the input is a letter or a number
     if(!preg_match('/^[A-Z0-9 _]*$/i', $v)) {
       $newinput[$k] = '';
@@ -376,7 +386,7 @@ function bootstrap_theme_enqueue_scripts() {
 	wp_enqueue_script( 'jquery' );
 
 	// Bootstrap
-	wp_enqueue_script( 'bootstrap-script', $template_url . '/js/bootstrap.min.js', array( 'jquery' ), null, true );
+	wp_enqueue_script( 'foobarbootstrap-script', $template_url . '/js/bootstrap.min.js', array( 'jquery' ), null, true );
 
 	wp_enqueue_style( 'bootstrap-style', $template_url . '/css/bootstrap.min.css' );
 
@@ -390,5 +400,13 @@ function bootstrap_theme_enqueue_scripts() {
 }
 
 add_action( 'wp_enqueue_scripts', 'bootstrap_theme_enqueue_scripts', 1 );
+
+add_action( 'after_setup_theme', 'woocommerce_support' );
+function woocommerce_support() {
+    add_theme_support( 'woocommerce' );
+}
+
+remove_action( 'woocommerce_before_shop_loop', 'woocommerce_result_count', 20 );
+
 
 ?>

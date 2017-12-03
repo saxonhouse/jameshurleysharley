@@ -1,44 +1,76 @@
 <?php get_header(); ?>
 
-<div class="row">
+<div id="main-container" class="container">
 
-	<div class="col-md-8">
+<div class="row row-centered" id="post-row">
+		<?php
+		$classes = array(
+			'col-xs-10',
+			'col-centered',
+			'post-col',
+		);
+		if(have_posts()) : ?>
+		   <?php $count = 0;
+			 		while(have_posts()) : the_post(); ?>
 
-		<?php if(have_posts()) : ?>
-		   <?php while(have_posts()) : the_post(); ?>
-			<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-				<?php the_title('<h2>','</h2>'); ?>
-		 		<?php the_content(); ?>
+			<div style="display: none" <?php post_class($classes); ?>>
+
+			<div id="post-<?php the_ID(); ?>" >
+
+
+				<div class="image-container">
+				<?php if (has_post_thumbnail()) { ?>
+				<a class="post-link" href="<?php the_permalink(); ?>?post_id=post-<?php the_ID(); ?>" ><img class="featured-image" src="<?php the_post_thumbnail_url(); ?>"></a>
+				<?php }  ?>
+				<h2 class="post-title"> <?php the_title(); ?> </h2>
+				</div>
+
 			</div>
-			<?php
-			if (is_singular()) {
-				// support for pages split by nextpage quicktag
-				wp_link_pages();
 
-				if ( comments_open() || get_comments_number() ) :
-					comments_template();
-				endif;
+	</div>
 
-				// Previous/next post navigation.
-				the_post_navigation( array(
-					'next_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Next', 'twentyfifteen' ) . '</span> ' .
-						'<span class="screen-reader-text">' . __( 'Next post:', 'twentyfifteen' ) . '</span> ' .
-						'<span class="post-title">%title</span>',
-					'prev_text' => '<span class="meta-nav" aria-hidden="true">' . __( 'Previous', 'twentyfifteen' ) . '</span> ' .
-						'<span class="screen-reader-text">' . __( 'Previous post:', 'twentyfifteen' ) . '</span> ' .
-						'<span class="post-title">%title</span>',
-				) );
+		   <?php $count++;
+				endwhile; ?>
 
-				// tags anyone?
-				the_tags();
-			}
-			?>
-		   <?php endwhile; ?>
+				<script>
+				bigLogo();
+				function homepage_posts(category) {
 
-		<?php if (!is_singular()) : ?>
-			<div class="nav-previous alignleft"><?php next_posts_link( 'Older posts' ); ?></div>
-			<div class="nav-next alignright"><?php previous_posts_link( 'Newer posts' ); ?></div>
-		<?php endif; ?>
+
+					category_class = '.category-' + category;
+
+					post_count = jQuery(category_class).length;
+					jQuery(category_class).removeClass('col-sm-6 col-md-6 col-md-4');
+					if (post_count == 2) {
+						jQuery(category_class).addClass('col-sm-6 col-md-6');
+					}
+					else if (post_count > 2) {
+						jQuery(category_class).addClass('col-sm-6 col-md-4');
+					}
+					jQuery.each(jQuery('.post-col'), function() {jQuery(this).fadeOut();});
+					jQuery.each(jQuery(category_class), function() {jQuery(this).fadeIn();});
+				}
+
+					homepage_posts('page1');
+				</script>
+
+		</div>
+	</div>
+
+				<footer>
+					<div class="homefoot container">
+						<div class="homefoot_inner col-md-12 text-center">
+							<ul class="nav nav-pills center-pills homefoot_nav ">
+								<li><a onclick="homepage_posts('page1')" href="#"><img class="symbol" src="<?php echo get_template_directory_uri(); ?>/img/1.gif"></a></li>
+								<li><a onclick="homepage_posts('page2')" href="#"><img class="symbol" src="<?php echo get_template_directory_uri(); ?>/img/2.png"></a></li>
+								<li><a onclick="homepage_posts('page3')" href="#"><img class="symbol" src="<?php echo get_template_directory_uri(); ?>/img/3.png"></a></li>
+								<li><a onclick="homepage_posts('page4')" href="#"><img class="symbol" src="<?php echo get_template_directory_uri(); ?>/img/4.gif"></a></li>
+								<li><a onclick="homepage_posts('page5')" href="#"><img class="symbol" src="<?php echo get_template_directory_uri(); ?>/img/5.gif"></a></li>
+							</ul>
+						</div>
+					</div>
+				</footer>
+
 
 		<?php else : ?>
 
@@ -47,7 +79,7 @@
 		</div>
 
 		<?php endif; ?>
-	</div>
+
 
 	<div class="col-md-4">
 
@@ -58,10 +90,6 @@
 		     endif;
 		?>
 	</div>
-
-</div>
-
-
 
 
 <?php get_footer(); ?>
