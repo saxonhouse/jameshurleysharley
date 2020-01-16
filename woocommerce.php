@@ -11,11 +11,9 @@
   </div>
 </div>
 
-<div class="navbar" id="basket-bar">
-  <ul class="nav">
-    <li><a id="single-back-link" href="<?php echo home_url(), '/index.php/shop'; ?>">
-       View Basket </a></li>
-  </ul>
+<div id="basket-bar">
+    <button class="btn btn-default"><a id="single-back-link" href="<?php echo home_url(), '/index.php/basket'; ?>">
+    <i class="fa fa-shopping-cart" aria-hidden="true"></i> </a></li>
 </div>
 
 <?php get_footer(); ?>

@@ -1,0 +1,58 @@
+@media(max-width: 767px) {
+	#sidebar {
+		display: none;
+	}
+
+	.mobile-inner-li {
+		width: 110px;
+		margin: auto;
+	}
+
+	.mobile-social {
+		height: 50px;
+		margin: 0!important;
+		padding: 0!important;
+		display: inline!important;
+		opacity: 0.7;
+		text-align: center;
+		position: static;
+	}
+
+	.mobile-social-image {
+		height: 50px!important;
+		display: inline;
+		margin: 0!important;
+		padding: 0!important;
+		float: left;
+	}
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+
+	.mobile-li, .mobile-social, .mobile-social-image {
+		display: none;
+	}
+
+	#sidebar {
+		position: fixed;
+		bottom: 25px;
+		left: 10px;
+	}
+	.sidebar-image {
+		width: 40px;
+		margin: 0;
+		padding: 0;
+		display: block;
+		float: left;
+		clear: both;
+		margin: 0!important;
+		padding: 0!important;
+		opacity: 0.5;
+	}
+
+	.sidebar-image:hover {
+		opacity: 1;
+	}
+
+}

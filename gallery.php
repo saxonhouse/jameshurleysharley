@@ -33,7 +33,7 @@
 				<?php if (has_post_thumbnail()) { ?>
 				<a class="post-link" href="<?php the_permalink(); ?>?post_id=post-<?php the_ID(); ?>" ><img class="featured-image" src="<?php the_post_thumbnail_url(); ?>"></a>
 				<?php }  ?>
-				<h2 class="post-title"> <?php the_title(); ?> </h2>
+				<p class="gallery-title"> <?php the_title(); ?> </p>
 				</div>
 
 			</div>
@@ -48,3 +48,6 @@
 
 		</div>
 	</div>
+
+
+	<?php get_footer(); ?>
